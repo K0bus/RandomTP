@@ -24,39 +24,20 @@ public class CommandRandomTP implements CommandExecutor{
 				if (args.length == 1 && ExceptionClass.isNumeric(args[0]))
 				{
 					double distance = Double.parseDouble(args[0]);
-					Location playerLocation = player.getLocation();
-					World playerWorld = player.getWorld();
 					if(distance >= minDistance && distance <= maxDistance)
 					{
 						player.sendMessage(Main.tag + "Recherche d'une position adequate !");
-						boolean safePos = false;
-						while(safePos == false)
+						for(int i = 0; i < 50; i++)
 						{
-							double yRPos = 255.0;
-							double[] rPos = this.generatePos(playerLocation, distance); // 0 - X // 1-Y
-							//Check if world is safe
-							while(safePos == false && yRPos > 50)
-							{
-								yRPos = yRPos - 1;
-								Location rLocation = new Location(playerWorld, rPos[0], yRPos, rPos[1]);
-								Block rBlock = playerWorld.getBlockAt(rLocation);
-								if(rBlock.getBlockData().getMaterial() != Material.AIR)
-								{
-									if(!rBlock.isEmpty() && !rBlock.isLiquid() && !rBlock.isPassable())
-									{
-										safePos = true;
-										player.teleport(new Location(playerWorld, rPos[0], yRPos +1 , rPos[1]));
-										player.sendMessage(Main.tag + "Position trouve : X: " + rPos[0] + " - Z: " + rPos[1] + " - Y: " + yRPos);
-									}
-									else
-									{
-										yRPos = 0;
-									}
-								}
+							double[] rPos = this.generatePos(player.getLocation(), distance); // index 0 is X  |  index 1 is Y
+							Block b = player.getWorld().getHighestBlockAt((int) rPos[0], (int) rPos[1]);
+							if(!b.isLiquid()) {
+								player.teleport(b.getLocation().add(0, 1, 0));
+								player.sendMessage(Main.tag + "Position trouve : X: " + rPos[0] + " - Z: " + rPos[1] + " - Y: " + (b.getLocation().getY() + 1));
+								return true;
 							}
 						}
-						
-						
+						player.sendMessage(Main.tag + "Max amounts of tries exceeded! Please try again!"); // TODO change to french - I dont speak french...
 					}
 					else
 					{
@@ -67,17 +48,14 @@ public class CommandRandomTP implements CommandExecutor{
 				}
 				else
 				{
-					player.sendMessage(Main.tag + "Merci de renseigner  un distance maximum !");
+					player.sendMessage(Main.tag + "Merci de renseigner un distance maximum !");
 					player.sendMessage(Main.tag + "/randomtp <distance>");
 					player.sendMessage(Main.tag + "Distance : " + minDistance + " - " + maxDistance);
 				}
 			}
-			else
-			{
-				
-			}
 			return true;
 		}
+
 		private double[] generatePos(Location playerLocation, double distance)
 		{
 			double[] xBorder = {playerLocation.getBlockX() - distance, playerLocation.getBlockX() + distance};
