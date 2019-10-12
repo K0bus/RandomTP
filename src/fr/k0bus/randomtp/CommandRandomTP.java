@@ -1,10 +1,11 @@
 package fr.k0bus.randomtp;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,29 +22,36 @@ public class CommandRandomTP implements CommandExecutor{
 				Player player = (Player) sender;
 				double minDistance = Main.config.getInt("distance.min");
 				double maxDistance = Main.config.getInt("distance.max");
+				double maxTry = Main.config.getInt("max-try");
+				double delayTP = Main.config.getInt("delay.teleport");
+				double cooldownTP = Main.config.getInt("delay.cooldown");
 				if (args.length == 1 && ExceptionClass.isNumeric(args[0]))
 				{
 					double distance = Double.parseDouble(args[0]);
 					if(distance >= minDistance && distance <= maxDistance)
 					{
 						player.sendMessage(Main.tag + "Recherche d'une position adequate !");
-						for(int i = 0; i < 50; i++)
+						for(int i = 0; i < maxTry; i++)
 						{
+							
 							double[] rPos = this.generatePos(player.getLocation(), distance); // index 0 is X  |  index 1 is Y
-							Block b = player.getWorld().getHighestBlockAt((int) rPos[0], (int) rPos[1]);
-							if(!b.isLiquid()) {
-								player.teleport(b.getLocation().add(0, 1, 0));
-								player.sendMessage(Main.tag + "Position trouve : X: " + rPos[0] + " - Z: " + rPos[1] + " - Y: " + (b.getLocation().getY() + 1));
+							Location randomLocation = new Location(player.getWorld(), rPos[0], 0, rPos[1]);
+							Location toTeleport = this.getSafeLocation(randomLocation);
+							if(toTeleport != null) {
+								player.sendMessage(Main.tag + "Position trouve : X: " + toTeleport.getX() + " - Z: " + toTeleport.getZ() + " - Y: " + (toTeleport.getY() + 1));
+								player.sendMessage(Main.tag + "Téléportation dans " + delayTP + " secondes !");
+								player.teleport(toTeleport.add(0.5, 1, 0.5));
 								return true;
 							}
 						}
-						player.sendMessage(Main.tag + "Max amounts of tries exceeded! Please try again!"); // TODO change to french - I dont speak french...
+						player.sendMessage(Main.tag + "Aucune position trouve malgre " + maxTry + " essaies !");
 					}
 					else
 					{
 						player.sendMessage(Main.tag + "La distance renseigner n'est pas possible !");
 						player.sendMessage(Main.tag + "/randomtp <distance>");
 						player.sendMessage(Main.tag + "Distance : " + minDistance + " - " + maxDistance);
+						
 					}
 				}
 				else
@@ -55,7 +63,7 @@ public class CommandRandomTP implements CommandExecutor{
 			}
 			return true;
 		}
-
+		
 		private double[] generatePos(Location playerLocation, double distance)
 		{
 			double[] xBorder = {playerLocation.getBlockX() - distance, playerLocation.getBlockX() + distance};
@@ -68,6 +76,19 @@ public class CommandRandomTP implements CommandExecutor{
 			
 			double[] pos = {xRPos, zRPos};
 			return pos;
+		}
+		private Location getSafeLocation(Location location)
+		{
+			Block b = location.getWorld().getHighestBlockAt(location);
+			List<Material> blacklist = new ArrayList<Material>();
+			if(!b.isEmpty() && !b.isLiquid()) //Simple bukkit check
+			{
+				if(!blacklist.contains(b.getBlockData().getMaterial()))
+				{
+					return b.getLocation();
+				}
+			}
+			return null;
 		}
 
 }
