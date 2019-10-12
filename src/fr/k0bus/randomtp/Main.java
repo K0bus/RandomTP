@@ -4,6 +4,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.k0bus.randomtp.commands.CommandDebug;
+import fr.k0bus.randomtp.commands.CommandRandomTP;
+
 public class Main extends JavaPlugin {
 
 	public static String tag;
@@ -16,6 +19,7 @@ public class Main extends JavaPlugin {
 		Main.config = this.getConfig();
 		Main.tag = ChatColor.translateAlternateColorCodes('&', Main.config.getString("tag") + "&r ");
 		this.getCommand("randomtp").setExecutor(new CommandRandomTP());
+		this.getCommand("rtp_debug").setExecutor(new CommandDebug());
 		this.setDefaultConfig();
 	}
 	@Override

@@ -1,19 +1,23 @@
-package fr.k0bus.randomtp;
+package fr.k0bus.randomtp.commands;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import fr.k0bus.randomtp.ExceptionClass;
+import fr.k0bus.randomtp.Main;
+import fr.k0bus.randomtp.checker.CheckerBlock;
+import fr.k0bus.randomtp.checker.CheckerPlugins;
+
 public class CommandRandomTP implements CommandExecutor{
 
+		CheckerBlock cb = new CheckerBlock();
+		CheckerPlugins cp = new CheckerPlugins();
+	
 		@Override
 		public boolean onCommand(CommandSender sender, Command command, String label, String args[])
 		{
@@ -24,7 +28,7 @@ public class CommandRandomTP implements CommandExecutor{
 				double maxDistance = Main.config.getInt("distance.max");
 				double maxTry = Main.config.getInt("max-try");
 				double delayTP = Main.config.getInt("delay.teleport");
-				double cooldownTP = Main.config.getInt("delay.cooldown");
+				//double cooldownTP = Main.config.getInt("delay.cooldown");
 				if (args.length == 1 && ExceptionClass.isNumeric(args[0]))
 				{
 					double distance = Double.parseDouble(args[0]);
@@ -36,7 +40,7 @@ public class CommandRandomTP implements CommandExecutor{
 							
 							double[] rPos = this.generatePos(player.getLocation(), distance); // index 0 is X  |  index 1 is Y
 							Location randomLocation = new Location(player.getWorld(), rPos[0], 0, rPos[1]);
-							Location toTeleport = this.getSafeLocation(randomLocation);
+							Location toTeleport = cb.getSafeLocation(randomLocation);
 							if(toTeleport != null) {
 								player.sendMessage(Main.tag + "Position trouve : X: " + toTeleport.getX() + " - Z: " + toTeleport.getZ() + " - Y: " + (toTeleport.getY() + 1));
 								player.sendMessage(Main.tag + "Téléportation dans " + delayTP + " secondes !");
@@ -77,18 +81,4 @@ public class CommandRandomTP implements CommandExecutor{
 			double[] pos = {xRPos, zRPos};
 			return pos;
 		}
-		private Location getSafeLocation(Location location)
-		{
-			Block b = location.getWorld().getHighestBlockAt(location);
-			List<Material> blacklist = new ArrayList<Material>();
-			if(!b.isEmpty() && !b.isLiquid()) //Simple bukkit check
-			{
-				if(!blacklist.contains(b.getBlockData().getMaterial()))
-				{
-					return b.getLocation();
-				}
-			}
-			return null;
-		}
-
 }
