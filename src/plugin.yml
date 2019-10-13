@@ -7,7 +7,7 @@ commands:
       description: Teleportation aleatoire sur la map
       usage: /randomtp <distance>
 permissions:
-	randomtp.bypass.cooldown:
-		description: Bypass /randomtp cooldown
-	randomtp.bypass.timer:
-		description: Bypass teleport delay
+   randomtp.bypass.cooldown:
+      description: Bypass /randomtp cooldown
+   randomtp.bypass.timer:
+      description: Bypass /randomtp teleport timer
