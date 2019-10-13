@@ -9,18 +9,23 @@ public class CheckerPlugins {
 	Plugin village_land;
 	Plugin griefprevention;
 	Plugin essentials;
+	Plugin essentialsProtect;
+	Plugin essentialsAntiBuild;
+	
 	public void CheckerPlugin()
 	{
-		this.worldguard = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard");
-		this.village_land = Bukkit.getServer().getPluginManager().getPlugin("Village");
-		this.griefprevention = Bukkit.getServer().getPluginManager().getPlugin("GriefPrevention");
-		this.essentials = Bukkit.getServer().getPluginManager().getPlugin("Essentials");
+		this.worldguard = Bukkit.getServer().getPluginManager().getPlugin("WorldGuard"); // https://dev.bukkit.org/projects/worldguard
+		this.village_land = Bukkit.getServer().getPluginManager().getPlugin("Villages"); // https://www.spigotmc.org/resources/villages-a-unique-land-claim-plugin-reborn.67871/
+		this.griefprevention = Bukkit.getServer().getPluginManager().getPlugin("GriefPrevention"); // https://dev.bukkit.org/projects/grief-prevention
+		this.essentials = Bukkit.getServer().getPluginManager().getPlugin("Essentials"); // https://www.spigotmc.org/resources/essentialsx.9089/
+		this.essentialsProtect = Bukkit.getServer().getPluginManager().getPlugin("EssentialsAntiBuild"); // https://www.spigotmc.org/resources/essentialsx.9089/
+		this.essentialsAntiBuild = Bukkit.getServer().getPluginManager().getPlugin("EssentialsProtect"); // https://www.spigotmc.org/resources/essentialsx.9089/
 	}
 	public boolean isProtected(Block b)
 	{
 		boolean p = false;
 		if(this.worldguard != null && p == false){
-			p = this.checkWorldGuard();
+			p = this.checkWorldGuard(b);
 		}
 		if(this.village_land != null && p == false){
 			p = this.checkVillageLand();
@@ -31,9 +36,15 @@ public class CheckerPlugins {
 		if(this.essentials != null && p == false){
 			p = this.checkEssentials();
 		}
+		if(this.essentialsProtect != null && p == false){
+			p = this.checkEssentialsProtect();
+		}
+		if(this.essentialsAntiBuild != null && p == false){
+			p = this.checkEssentialsAntiBuild();
+		}
 		return true;	
 	}
-	private boolean checkWorldGuard()
+	private boolean checkWorldGuard(Block b)
 	{
 		return true;
 	}
@@ -46,6 +57,14 @@ public class CheckerPlugins {
 		return true;
 	}
 	private boolean checkEssentials()
+	{
+		return true;
+	}
+	private boolean checkEssentialsProtect()
+	{
+		return true;
+	}
+	private boolean checkEssentialsAntiBuild()
 	{
 		return true;
 	}

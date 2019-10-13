@@ -1,4 +1,8 @@
-tag: '&r[&cAkura&r]'
+tag: '&r[&cRandomTP&r]'
 distance:
   min: 200
   max: 1000
+max-try: 50
+delay:
+  teleport: 5
+  cooldown: 360
