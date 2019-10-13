@@ -6,8 +6,13 @@ commands:
    randomtp:
       description: Teleportation aleatoire sur la map
       usage: /randomtp <distance>
+   rtp_debug:
+      description: Debug command
+      usage: /rtp_debug <class>
 permissions:
    randomtp.bypass.cooldown:
       description: Bypass /randomtp cooldown
    randomtp.bypass.timer:
       description: Bypass /randomtp teleport timer
+   randomtp.debug:
+      description: Allow /rtp_debug <class>

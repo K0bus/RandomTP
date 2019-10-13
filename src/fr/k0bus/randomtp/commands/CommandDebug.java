@@ -18,21 +18,26 @@ public class CommandDebug implements CommandExecutor{
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String args[])
 	{
-		if(args[0] == "plc" && sender instanceof Player )
+		if(sender instanceof Player && args.length > 0)
 		{
 			Player player = (Player) sender;
-			if(cp.isProtected(player.getWorld().getHighestBlockAt(player.getLocation())))
+			if(player.hasPermission("randomtp.debug"))
 			{
-				player.sendMessage(Main.tag + ChatColor.DARK_RED + "Cette endroit est protégé par un claim !");
+				if(args[0].contains("plc"))
+				{
+					player.sendMessage(Main.tag + ChatColor.LIGHT_PURPLE + "Vérification des claims...");
+					if(cp.isClaimed(player.getLocation()))
+					{
+						player.sendMessage(Main.tag + ChatColor.DARK_RED + "Cette endroit est protégé par un claim !");
+					}
+					else
+					{
+						player.sendMessage(Main.tag + ChatColor.DARK_GREEN + "Cette endroit n'est pas protégé par un claim !");
+					}
+				}
 			}
-			else
-			{
-				player.sendMessage(Main.tag + ChatColor.DARK_GREEN + "Cette endroit n'est pas protégé par un claim !");
-			}
-				
 		}
 		return true;
-		
 	}
 	
 }
