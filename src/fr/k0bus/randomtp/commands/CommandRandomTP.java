@@ -37,7 +37,7 @@ public class CommandRandomTP implements CommandExecutor{
 				double maxTry = Main.config.getInt("max-try");
 				double delayTP = Main.config.getInt("delay.teleport");
 				double cooldownTP = Main.config.getInt("delay.cooldown");
-				if(cdtime.get(player.getUniqueId()) == null || (cdtime.get(player.getUniqueId())+ cooldownTP*1000) <= System.currentTimeMillis())
+				if(cdtime.get(player.getUniqueId()) == null || (cdtime.get(player.getUniqueId())+ cooldownTP*1000) <= System.currentTimeMillis() || player.hasPermission("randomtp.bypass.cooldown"))
 				{
 					if(cdtime.get(player.getUniqueId()) != null)
 					{
@@ -58,29 +58,44 @@ public class CommandRandomTP implements CommandExecutor{
 								Location toTeleport = cb.getSafeLocation(randomLocation);
 								if(toTeleport != null) {
 									player.sendMessage(Main.tag + "Position trouve : X: " + toTeleport.getX() + " - Z: " + toTeleport.getZ() + " - Y: " + (toTeleport.getY() + 1));
-									player.sendMessage(Main.tag + "Téléportation dans " + delayTP + " secondes !");
-									Location l = player.getLocation();
-									int lX = l.getBlockX();
-									int lZ = l.getBlockZ();
-									int lY = l.getBlockY();
-									double h = player.getHealth();
-									PlayerInventory inv = player.getInventory();
-									Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.plugin , new Runnable() {
-									    public void run()
-									    {
-									    	if(lX == player.getLocation().getBlockX() && lZ == player.getLocation().getBlockZ() && lY == player.getLocation().getBlockY() && h == player.getHealth() && inv == player.getInventory())
-									    	{
-									    		player.teleport(toTeleport.add(0.5, 1, 0.5));
-									    		player.sendMessage(Main.tag + ChatColor.DARK_GREEN + "Téléportation réussis !");
-									    		cdtime.put(player.getUniqueId(), (long) (System.currentTimeMillis()));
-									    	}
-									    	else
-									    	{
-									    		player.sendMessage(Main.tag + ChatColor.DARK_RED + "Téléportation annulée !");
-									    	}
-									    }
-									}, (long) (20*delayTP));
-									
+									if(player.hasPermission("randomtp.bypass.timer"))
+									{
+							    		player.teleport(toTeleport.add(0.5, 1, 0.5));
+							    		player.sendMessage(Main.tag + ChatColor.DARK_GREEN + "Téléportation réussis !");
+							    		if(!player.hasPermission("randomtp.bypass.cooldown"))
+							    		{
+							    			cdtime.put(player.getUniqueId(), (long) (System.currentTimeMillis()));
+							    		}
+									}
+									else
+									{
+										player.sendMessage(Main.tag + "Téléportation dans " + delayTP + " secondes !");
+										Location l = player.getLocation();
+										int lX = l.getBlockX();
+										int lZ = l.getBlockZ();
+										int lY = l.getBlockY();
+										double h = player.getHealth();
+										PlayerInventory inv = player.getInventory();
+										
+										Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.plugin , new Runnable() {
+										    public void run()
+										    {
+										    	if(lX == player.getLocation().getBlockX() && lZ == player.getLocation().getBlockZ() && lY == player.getLocation().getBlockY() && h == player.getHealth() && inv == player.getInventory())
+										    	{
+										    		player.teleport(toTeleport.add(0.5, 1, 0.5));
+										    		player.sendMessage(Main.tag + ChatColor.DARK_GREEN + "Téléportation réussis !");
+										    		if(!player.hasPermission("randomtp.bypass.cooldown"))
+										    		{
+										    			cdtime.put(player.getUniqueId(), (long) (System.currentTimeMillis()));
+										    		}
+										    	}
+										    	else
+										    	{
+										    		player.sendMessage(Main.tag + ChatColor.DARK_RED + "Téléportation annulée !");
+										    	}
+										    }
+										}, (long) (20*delayTP));
+									}
 									return true;
 								}
 							}
