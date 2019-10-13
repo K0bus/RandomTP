@@ -16,6 +16,13 @@ Commandes  | Description
 ------------- | -------------
 /randomtp *distance*  | Generation du position sûre dans le rayon définis en argument.
 
+### Permissions
+
+Permissions  | Description
+------------- | -------------
+randomtp.bypass.cooldown  | Permet de Bypass le temps de recharge de /randomtp
+randomtp.bypass.cooldown  | Permet de Bypass le temps de téléportation de /randomtp
+
 ### Links
 
 `<Mon site web>` : <https://k0bus.fr>
