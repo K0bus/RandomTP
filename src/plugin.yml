@@ -1,8 +1,8 @@
 name: RandomTP
 main: fr.k0bus.randomtp.Main
-version: 0.1
+version: 0.2
 api-version: 1.14
 commands:
    randomtp:
-      description: Your description
+      description: Teleportation aleatoire sur la map
       usage: /randomtp <distance>
