@@ -1,5 +1,7 @@
 package fr.k0bus.randomtp;
 
+import fr.k0bus.randomtp.MainConfig;
+
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
