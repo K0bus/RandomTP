@@ -32,7 +32,7 @@ public class CommandRandomTP implements CommandExecutor{
 			if(sender instanceof Player)
 			{
 				
-				Player player = (Player) sender;
+				final Player player = (Player) sender;
 				double minDistance = MainConfig.minDistance;
 				double maxDistance = MainConfig.maxDistance;
 				double maxTry = MainConfig.maxTry;
@@ -56,7 +56,7 @@ public class CommandRandomTP implements CommandExecutor{
 								
 								double[] rPos = this.generatePos(player.getLocation(), distance); // index 0 is X  |  index 1 is Y
 								Location randomLocation = new Location(player.getWorld(), rPos[0], 0, rPos[1]);
-								Location toTeleport = cb.getSafeLocation(randomLocation);
+								final Location toTeleport = cb.getSafeLocation(randomLocation);
 								if(toTeleport != null) {
 									if(!cp.isClaimed(toTeleport))
 									{
@@ -75,11 +75,11 @@ public class CommandRandomTP implements CommandExecutor{
 										{
 											player.sendMessage(Main.tag + "Téléportation dans " + delayTP + " secondes !");
 											Location l = player.getLocation();
-											int lX = l.getBlockX();
-											int lZ = l.getBlockZ();
-											int lY = l.getBlockY();
-											double h = player.getHealth();
-											PlayerInventory inv = player.getInventory();
+											final int lX = l.getBlockX();
+											final int lZ = l.getBlockZ();
+											final int lY = l.getBlockY();
+											final double h = player.getHealth();
+											final PlayerInventory inv = player.getInventory();
 											
 											Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(Main.plugin , new Runnable() {
 											    public void run()
