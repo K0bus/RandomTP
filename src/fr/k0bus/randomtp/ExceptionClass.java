@@ -5,9 +5,12 @@ public class ExceptionClass {
 	    try {
 	        @SuppressWarnings("unused")
 			double d = Double.parseDouble(strNum);
-	    } catch (NumberFormatException | NullPointerException nfe) {
+	    } catch (NumberFormatException nfe) {
 	        return false;
-	    }
+		} catch(NullPointerException npe)
+		{
+			return false;
+		}
 	    return true;
 	}
 }
