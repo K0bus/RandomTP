@@ -31,5 +31,26 @@
       <version>1.14.4-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>me.angeschossen</groupId>
+      <artifactId>lands</artifactId>
+      <version>4.1.1.3</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/Lands.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.sk89q</groupId>
+      <artifactId>worldedit</artifactId>
+      <version>7.0.1</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/worldedit-bukkit-7.0.1.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.sk89q</groupId>
+      <artifactId>worldguard</artifactId>
+      <version>7.0.0</version>
+      <scope>system</scope>
+      <systemPath>${basedir}/lib/worldguard-bukkit-7.0.0.jar</systemPath>
+    </dependency>
   </dependencies>
 </project>
