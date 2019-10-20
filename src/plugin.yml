@@ -1,6 +1,6 @@
-name: RandomTP
+name: ${project.artifactID}
 main: fr.k0bus.randomtp.Main
-version: 0.2
+version: ${project.version}
 api-version: 1.14
 commands:
    randomtp:

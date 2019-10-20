@@ -8,6 +8,7 @@
     <resources>
       <resource>
         <directory>src</directory>
+        <filtering>true</filtering>
         <excludes>
           <exclude>**/*.java</exclude>
         </excludes>
@@ -18,8 +19,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.5.1</version>
         <configuration>
-          <source/>
-          <target/>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
     </plugins>
