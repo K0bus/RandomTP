@@ -1,4 +1,4 @@
-name: ${project.artifactID}
+name: ${project.artifactId}
 main: fr.k0bus.randomtp.Main
 version: ${project.version}
 api-version: 1.14
