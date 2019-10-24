@@ -6,3 +6,6 @@ max-try: 50
 delay:
   teleport: 5
   cooldown: 360
+plugins:
+  lands:
+  worldguard:

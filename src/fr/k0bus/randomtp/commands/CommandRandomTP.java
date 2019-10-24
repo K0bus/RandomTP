@@ -15,6 +15,7 @@ import org.bukkit.inventory.PlayerInventory;
 
 import fr.k0bus.randomtp.ExceptionClass;
 import fr.k0bus.randomtp.Main;
+import fr.k0bus.randomtp.MainConfig;
 import fr.k0bus.randomtp.checker.CheckerBlock;
 import fr.k0bus.randomtp.checker.CheckerPlugins;
 
@@ -32,11 +33,11 @@ public class CommandRandomTP implements CommandExecutor{
 			{
 				
 				final Player player = (Player) sender;
-				double minDistance = Main.config.getInt("distance.min");
-				double maxDistance = Main.config.getInt("distance.max");
-				double maxTry = Main.config.getInt("max-try");
-				double delayTP = Main.config.getInt("delay.teleport");
-				double cooldownTP = Main.config.getInt("delay.cooldown");
+				double minDistance = MainConfig.minDistance;
+				double maxDistance = MainConfig.maxDistance;
+				double maxTry = MainConfig.maxTry;
+				double delayTP = MainConfig.teleportDelay;
+				double cooldownTP = MainConfig.cooldownDelay;
 				if(cdtime.get(player.getUniqueId()) == null || (cdtime.get(player.getUniqueId())+ cooldownTP*1000) <= System.currentTimeMillis() || player.hasPermission("randomtp.bypass.cooldown"))
 				{
 					if(cdtime.get(player.getUniqueId()) != null)
